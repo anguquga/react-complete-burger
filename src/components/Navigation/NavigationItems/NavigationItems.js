@@ -5,8 +5,8 @@ import NavigationItem from "./NavigationItem/NavigationItem";
 
 const navigationItems = () => (
     <ul className={classes.NavigationItems}>
-        <NavigationItem link="/" active={true}>Burger Builder</NavigationItem>
-        <NavigationItem link="/">CheckOut</NavigationItem>
+        <NavigationItem link="/burgerBuilder" active={true}>Burger Builder</NavigationItem>
+        <NavigationItem link="/checkout">CheckOut</NavigationItem>
     </ul>
 );
 
