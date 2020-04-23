@@ -25,11 +25,11 @@ class BurgerBuilder extends Component{
         purchasable: false,
         purchasing: false,
         loading: false,
-        error: false
+        error: false,
     }
 
     componentDidMount() {
-        axios.get('https://react-my-burger-c5255.firebaseio.com/ingredients.json')
+        axios.get('/ingredients.json')
             .then(response => {
                 this.setState({ingredients: response.data});
             }).catch(error => {
@@ -88,31 +88,8 @@ class BurgerBuilder extends Component{
     }
 
     checkout = () => {
-        //alert('Checkout');
         this.setState({loading: true});
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer: {
-                name: 'Max',
-                address: {
-                    street: 'Test Street',
-                    zipCode: '43567',
-                    country: 'Germany'
-                },
-                email: 'test@test.com'
-            },
-            deliveryMethod: 'fastest'
-        };
-        axios.post('/orders.json', order)
-            .then(response => {
-                this.setState({loading: false,
-                purchasing: false});
-            })
-            .catch(response => {
-                this.setState({loading: false,
-                purchasing: false});
-            });
+        this.props.history.push('/checkout', {ingredients: this.state.ingredients, totalPrice: this.state.totalPrice});
     }
 
     render() {
