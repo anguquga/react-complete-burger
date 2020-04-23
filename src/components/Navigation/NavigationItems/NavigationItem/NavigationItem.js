@@ -5,8 +5,7 @@ import {NavLink} from "react-router-dom";
 
 const navigationItem = (props) => (
     <li className={classes.NavigationItem}>
-        <NavLink to={""+props.link}
-           className={props.active ? classes.active : null}>{props.children}</NavLink>
+        <NavLink to={""+props.link} activeClassName={classes.active}>{props.children}</NavLink>
         </li>
 );
 

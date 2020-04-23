@@ -57,11 +57,11 @@ class ContactData extends Component {
             <input className={classes.Input} type="email" name="email" placeholder="Enter your Email"
                    onChange={(event) => this.setState({email: event.target.value})}/>
             <input className={classes.Input} type="text" name="streetAddress" placeholder="Enter your Street Address"
-                   onChange={(event) => this.setState({address: {street: event.target.value}})}/>
+                   onChange={(event) => this.setState({address: {...this.state.address, street: event.target.value}})}/>
             <input className={classes.Input} type="text" name="postalCode" placeholder="Enter your Postal Code"
-                   onChange={(event) => this.setState({address: {postalCode: event.target.value}})}/>
+                   onChange={(event) => {this.setState({address: {...this.state.address, postalCode: event.target.value}})}}/>
             <input className={classes.Input} type="text" name="country" placeholder="Enter your Country"
-                   onChange={(event) => this.setState({address: {country: event.target.value}})}/>
+                   onChange={(event) => this.setState({address: {...this.state.address, country: event.target.value}})}/>
             <Button btnType="Success" clicked={this.orderHandler}>ORDER</Button>
         </form>);
         if (this.state.loading) {
