@@ -5,6 +5,7 @@ import classes from './ContectData.module.css';
 import axios from "../../../axios-orders";
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/Input/Input";
+import {connect} from "react-redux";
 
 class ContactData extends Component {
     state = {
@@ -88,14 +89,12 @@ class ContactData extends Component {
                 validation: {}
             }
         },
-        ingredients: [],
-        totalPrice: 0,
         loading: false,
         formIsValid: false
     }
 
     componentDidMount() {
-        this.setState({ingredients: this.props.ingredients, totalPrice: this.props.totalPrice});
+
     }
 
     formValueHandler = (event, inputId) => {
@@ -117,8 +116,8 @@ class ContactData extends Component {
         event.preventDefault(); //Se coloca para que el submit no refresque la pag
         this.setState({loading: true});
         const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
+            ingredients: this.props.ingredients,
+            price: this.props.totalPrice,
             customer: {
                 name: this.state.orderForm.name.value,
                 address: {
@@ -168,7 +167,14 @@ class ContactData extends Component {
 
         let form = (<form onSubmit={this.orderHandler}>
             {formElements.map (formElement => {
-               return <Input key={formElement.id} inputtype={formElement.config.elementType} elementConfig={formElement.config.elementConfig} invalid={!formElement.config.valid} shouldValidate={formElement.config.validation} touched={formElement.config.touched} value={formElement.config.value} onChange={(event) =>  this.formValueHandler(event, formElement.id)} />
+               return <Input key={formElement.id}
+                             inputtype={formElement.config.elementType}
+                             elementConfig={formElement.config.elementConfig}
+                             invalid={!formElement.config.valid}
+                             shouldValidate={formElement.config.validation}
+                             touched={formElement.config.touched}
+                             value={formElement.config.value}
+                             onChange={(event) =>  this.formValueHandler(event, formElement.id)} />
             })}
             <Button btnType="Success" disabled={!this.state.formIsValid}>ORDER</Button>
         </form>);
@@ -184,4 +190,12 @@ class ContactData extends Component {
     }
 }
 
-export default ContactData;
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredientsRed.ingredients,
+        totalPrice: state.ingredientsRed.totalPrice
+    };
+}
+
+
+export default connect(mapStateToProps, null)(ContactData);
