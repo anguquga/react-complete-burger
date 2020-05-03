@@ -6,10 +6,6 @@ import {connect} from "react-redux";
 
 class Checkout extends Component{
 
-    componentDidMount() {
-
-    }
-
     checkoutCancelledHandler = () => {
         this.props.history.goBack();
     }
@@ -21,7 +17,7 @@ class Checkout extends Component{
     render(){
         let redirect = <Redirect to="/burgerBuilder" />;
 
-        if(this.props.ingredients.length > 0){
+        if(Object.keys(this.props.ingredients).length > 0){
             redirect = null;
         }
 
@@ -44,4 +40,4 @@ const mapStateToProps = state => {
 }
 
 
-export default connect(mapStateToProps, null)(Checkout);
+export default connect(mapStateToProps)(Checkout);

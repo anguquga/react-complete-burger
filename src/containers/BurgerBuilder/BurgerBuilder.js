@@ -32,22 +32,14 @@ class BurgerBuilder extends Component{
         }
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
-        if(prevProps.ingredients !== this.props.ingredients) {
-            this.updatePurchase(this.props.ingredients);
-        }
-    }
-
     updatePurchase (ingredients){
-        console.log("Update Purchase ", ingredients);
-
         const sum = Object.keys(ingredients).map(igKey => {
             return ingredients[igKey];
         })
         .reduce((sum, el) => {
                return sum + el;
         }, 0);
-        this.setState({purchasable: sum > 0});
+        return sum > 0;
     }
 
     purchaseHandler = () => {
@@ -82,7 +74,7 @@ class BurgerBuilder extends Component{
                 ingredientRemoved={this.props.onRemoveIngredient}
                 disabled={disabledInfo}
                 price={this.props.totalPrice}
-                purchasable={this.state.purchasable}
+                purchasable={this.updatePurchase(this.props.ingredients)}
                 purchasing={this.purchaseHandler}
             /></Aux>);
             orderSummary = <OrderSummary
