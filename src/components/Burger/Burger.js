@@ -2,10 +2,11 @@ import React from "react";
 import BurgerIngredient from "./BurgerIngredients/BurgerIngredient";
 
 import classes from './Burger.module.css';
-
+import {connect} from "react-redux";
 
 const burger = (props) => {
 
+    console.log("Burger Ingredients: ", props.ingredients);
     let transformedIngredients = Object.keys(props.ingredients)
         .map(igKey => {
             return [...Array(props.ingredients[igKey])].map((_,i) => {
@@ -29,4 +30,11 @@ const burger = (props) => {
     );
 };
 
-export default burger;
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredientsRed.ingredients
+    };
+}
+
+
+export default connect(mapStateToProps, null)(burger);

@@ -3,6 +3,7 @@ import Burger from "../../Burger/Burger";
 import Button from "../../UI/Button/Button";
 
 import classes from './CheckoutSummary.module.css';
+import {connect} from "react-redux";
 
 const checkoutSummary = (props) => {
     return (
@@ -17,4 +18,11 @@ const checkoutSummary = (props) => {
     );
 }
 
-export default checkoutSummary;
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredientsRed.ingredients
+    };
+}
+
+
+export default connect(mapStateToProps, null)(checkoutSummary);
