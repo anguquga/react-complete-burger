@@ -30,8 +30,8 @@ class OrderSummary extends Component {
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredientsRed.ingredients,
-        totalPrice: state.ingredientsRed.totalPrice
+        ingredients: state.burguerBuilderRed.ingredients,
+        totalPrice: state.burguerBuilderRed.totalPrice
     };
 }
 
