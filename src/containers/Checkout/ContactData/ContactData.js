@@ -131,8 +131,6 @@ class ContactData extends Component {
         };
 
         this.props.purchaseBurger(order);
-        this.props.history.push('/');
-
     }
 
     checkValidity(value, rules) {
@@ -163,7 +161,7 @@ class ContactData extends Component {
 
         let form = (<form onSubmit={this.orderHandler}>
             {formElements.map (formElement => {
-               return <Input key={formElement.id}
+               return <Input id={formElement.id}
                              inputtype={formElement.config.elementType}
                              elementConfig={formElement.config.elementConfig}
                              invalid={!formElement.config.valid}
@@ -190,7 +188,7 @@ const mapStateToProps = state => {
     return {
         ingredients: state.burguerBuilderRed.ingredients,
         totalPrice: state.burguerBuilderRed.totalPrice,
-        loading: state.ordersRed.loading
+        loadingOrder: state.ordersRed.loadingOrder
     };
 }
 

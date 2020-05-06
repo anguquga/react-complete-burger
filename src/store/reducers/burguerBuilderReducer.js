@@ -85,7 +85,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 burgerBuilderError: false,
                 ingredients: null,
-                burgerBuilderLoading: true
+                burgerBuilderLoading: true,
+                totalPrice: 0
             };
         }
         default:
