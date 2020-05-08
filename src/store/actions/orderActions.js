@@ -7,7 +7,7 @@ export const fetchOrdersStart = () => {
     };
 }
 
-export const fetchOrdersFailed = () => {
+export const fetchOrdersFailed = (error) => {
     return {
         type: actionTypes.FETCH_ORDERS_FAIL
     };
@@ -28,7 +28,7 @@ export const fetchOrders = () => {
                 dispatch(fetchOrdersCompleted(response.data));
             })
             .catch(error => {
-                dispatch(fetchOrdersFailed());
+                dispatch(fetchOrdersFailed(error));
             });
     };
 }

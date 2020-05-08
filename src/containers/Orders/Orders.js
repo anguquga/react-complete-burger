@@ -4,6 +4,7 @@ import Order from "./Order/Order";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import {connect} from "react-redux";
 import * as actions from "../../store/actions/actionsIndex";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Orders extends Component {
 
@@ -14,7 +15,11 @@ class Orders extends Component {
     render() {
         let orders = <p style={{textAlign: 'center'}}>Something went wrong!</p>;
 
-        if (!this.props.error) {
+        if (this.props.loadingOrder) {
+            orders = <Spinner/>
+        }
+
+        if (!this.props.errorOrder && !this.props.loadingOrder) {
             let tempOrders = [];
                 for(let order in this.props.orders) {
                     tempOrders.push(
@@ -36,8 +41,8 @@ class Orders extends Component {
 const mapStateToProps = state => {
     return {
         orders: state.ordersRed.orders,
-        error: state.ordersRed.error,
-        loading: state.ordersRed.loading
+        errorOrder: state.ordersRed.error,
+        loadingOrder: state.ordersRed.loading
     };
 }
 
