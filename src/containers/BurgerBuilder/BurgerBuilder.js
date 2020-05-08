@@ -9,7 +9,7 @@ import OrderSummary from "../../components/Burger/OrderSummary/OrderSummary";
 
 import axios from "../../axios-orders";
 import Spinner from "../../components/UI/Spinner/Spinner";
-import * as actionTypes from "../../store/actions";
+import * as actions from "../../store/actions/actionsIndex";
 import {connect} from "react-redux";
 
 class BurgerBuilder extends Component{
@@ -17,19 +17,10 @@ class BurgerBuilder extends Component{
     state = {
         purchasable: false,
         purchasing: false,
-        loading: false,
-        error: false,
     }
 
     componentDidMount() {
-        if(Object.keys(this.props.ingredients).length === 0) {
-            axios.get('/ingredients.json')
-                .then(response => {
-                    this.props.setBasicIngredients(response.data);
-                }).catch(error => {
-                this.setState({error: error})
-            });
-        }
+        this.props.setBasicIngredients();
     }
 
     updatePurchase (ingredients){
@@ -65,7 +56,7 @@ class BurgerBuilder extends Component{
 
         let orderSummary = null;
 
-        let burger = this.state.error ? <p>Ingredients can't be loaded!</p>:null;
+        let burger = this.props.error ? <p>Ingredients can't be loaded!</p>:null;
 
         if (this.props.ingredients) {
             burger = (<Aux><Burger />
@@ -82,9 +73,11 @@ class BurgerBuilder extends Component{
                           checkout={this.checkout} />;
 
         }
-        if (this.state.loading) {
+
+        if (this.props.loading) {
             orderSummary = <Spinner/>
         }
+
 
         return (
             <Aux>
@@ -99,16 +92,18 @@ class BurgerBuilder extends Component{
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredientsRed.ingredients,
-        totalPrice: state.ingredientsRed.totalPrice
+        ingredients: state.burguerBuilderRed.ingredients,
+        totalPrice: state.burguerBuilderRed.totalPrice,
+        error: state.burguerBuilderRed.burgerBuilderError,
+        loading: state.burguerBuilderRed.burgerBuilderLoading
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        onAddIngredient: (ingredientType) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientType: ingredientType}),
-        onRemoveIngredient: (ingredientType) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientType: ingredientType}),
-        setBasicIngredients: (data) => dispatch({type: actionTypes.BASIC_INGREDIENTS, payload: data})
+        onAddIngredient: (ingredientType) => dispatch(actions.addIngredient(ingredientType)),
+        onRemoveIngredient: (ingredientType) => dispatch(actions.removeIngredient(ingredientType)),
+        setBasicIngredients: () => dispatch(actions.fetchIngredients())
     };
 }
 

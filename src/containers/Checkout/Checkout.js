@@ -15,18 +15,23 @@ class Checkout extends Component{
     }
 
     render(){
-        let redirect = <Redirect to="/burgerBuilder" />;
+        let summary = <Redirect to="/burgerBuilder" />;
+        let purchased = this.props.purchasedOrder ? <Redirect to="/burgerBuilder" />:null;
 
-        if(Object.keys(this.props.ingredients).length > 0){
-            redirect = null;
+        if(this.props.ingredients){
+            summary = (
+                <div>
+                    {purchased}
+                    <CheckoutSummary onCheckoutCancelled={this.checkoutCancelledHandler}
+                                        onCheckoutContinued={this.checkoutContinuedHandler}/>
+                    <Route path={this.props.match.url + '/contact-data'} render={(props) => (<ContactData {...props} />)} />
+                </div>
+            );
         }
 
         return(
             <React.Fragment>
-                {redirect}
-                <CheckoutSummary onCheckoutCancelled={this.checkoutCancelledHandler}
-                                 onCheckoutContinued={this.checkoutContinuedHandler}/>
-                 <Route path={this.props.match.url + '/contact-data'} render={(props) => (<ContactData {...props} />)} />
+                {summary}
             </React.Fragment>
         );
     }
@@ -34,8 +39,9 @@ class Checkout extends Component{
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredientsRed.ingredients,
-        totalPrice: state.ingredientsRed.totalPrice
+        ingredients: state.burguerBuilderRed.ingredients,
+        totalPrice: state.burguerBuilderRed.totalPrice,
+        purchasedOrder: state.ordersRed.purchasedOrder
     };
 }
 

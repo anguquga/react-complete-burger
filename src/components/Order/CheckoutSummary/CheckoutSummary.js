@@ -20,7 +20,7 @@ const checkoutSummary = (props) => {
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.ingredientsRed.ingredients
+        ingredients: state.burguerBuilderRed.ingredients
     };
 }
 
