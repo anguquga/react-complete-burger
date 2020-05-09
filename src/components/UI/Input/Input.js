@@ -14,20 +14,20 @@ const input = (props) => {
 
     switch(props.inputtype){
         case ('input'):
-            inputElement = <input id={props.id} className={inputClasses.join(' ')} {...props.elementConfig} value={props.value} onChange={props.onChange}/>
+            inputElement = <input className={inputClasses.join(' ')} {...props.elementConfig} value={props.value} onChange={props.onChange}/>
             break;
         case ('textarea'):
-            inputElement = <textarea id={props.id} className={inputClasses.join(' ')} {...props.elementConfig} value={props.value} onChange={props.onChange}/>
+            inputElement = <textarea className={inputClasses.join(' ')} {...props.elementConfig} value={props.value} onChange={props.onChange}/>
             break;
         case 'select':
-            inputElement = <select id={props.id} className={inputClasses.join(' ')} value={props.value} onChange={props.onChange}>
+            inputElement = <select className={inputClasses.join(' ')} value={props.value} onChange={props.onChange}>
                             {props.elementConfig.options.map((option,key) => (
-                               <option key={key} value={option.value}>{option.displayValue}</option>
+                               <option key={option.value} value={option.value}>{option.displayValue}</option>
                             ))}
                            </select>
             break;
         default:
-            inputElement= <input id={props.id} className={inputClasses.join(' ')} {...props.elementConfig} value={props.value} onChange={props.onChange}/>
+            inputElement= <input className={inputClasses.join(' ')} {...props.elementConfig} value={props.value} onChange={props.onChange}/>
     }
 
     return(

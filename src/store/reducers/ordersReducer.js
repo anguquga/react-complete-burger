@@ -58,6 +58,13 @@ const reducer = (state = initialState, action) => {
                 purchasedOrder: false
             };
         }
+        case actionTypes.PURCHASE_BURGER_FINISHED: {
+            return{
+                ...state,
+                loadingOrder: false,
+                purchasedOrder: false
+            };
+        }
         default:
             break;
     }

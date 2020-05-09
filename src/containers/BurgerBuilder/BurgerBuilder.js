@@ -20,7 +20,10 @@ class BurgerBuilder extends Component{
     }
 
     componentDidMount() {
-        this.props.setBasicIngredients();
+        if(this.props.purchasedOrder || !this.props.ingredients) {
+            this.props.purchaseBurgerFinished();
+            this.props.setBasicIngredients();
+        }
     }
 
     updatePurchase (ingredients){
@@ -33,16 +36,24 @@ class BurgerBuilder extends Component{
         return sum > 0;
     }
 
-    purchaseHandler = () => {
-        this.setState({purchasing: true});
+    purchaseHandler = (event) => {
+        event.preventDefault();
+        if(this.props.isAuthenticated){
+            this.setState({purchasing: true});
+        }else{
+            this.props.setAuthRedirect('/checkout');
+            this.props.history.push("/auth");
+        }
     }
 
-    purchaseCancelHandler = () => {
+    purchaseCancelHandler = (event) => {
+        event.preventDefault();
         this.setState({purchasing: false});
     }
 
-    checkout = () => {
-        this.setState({loading: true});
+    checkout = (event) => {
+        event.preventDefault();
+        this.props.setAuthRedirect('/checkout');
         this.props.history.push('/checkout');
     }
 
@@ -67,6 +78,7 @@ class BurgerBuilder extends Component{
                 price={this.props.totalPrice}
                 purchasable={this.updatePurchase(this.props.ingredients)}
                 purchasing={this.purchaseHandler}
+                isAuthenticated={this.props.isAuthenticated}
             /></Aux>);
             orderSummary = <OrderSummary
                           cancel={this.purchaseCancelHandler}
@@ -92,10 +104,12 @@ class BurgerBuilder extends Component{
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.burguerBuilderRed.ingredients,
-        totalPrice: state.burguerBuilderRed.totalPrice,
-        error: state.burguerBuilderRed.burgerBuilderError,
-        loading: state.burguerBuilderRed.burgerBuilderLoading
+        ingredients: state.burgerBuilderRed.ingredients,
+        totalPrice: state.burgerBuilderRed.totalPrice,
+        error: state.burgerBuilderRed.burgerBuilderError,
+        loading: state.burgerBuilderRed.burgerBuilderLoading,
+        isAuthenticated: state.authRed.token !== null,
+        purchasedOrder: state.ordersRed.purchasedOrder
     };
 }
 
@@ -103,7 +117,9 @@ const mapDispatchToProps = dispatch => {
     return {
         onAddIngredient: (ingredientType) => dispatch(actions.addIngredient(ingredientType)),
         onRemoveIngredient: (ingredientType) => dispatch(actions.removeIngredient(ingredientType)),
-        setBasicIngredients: () => dispatch(actions.fetchIngredients())
+        setBasicIngredients: () => dispatch(actions.fetchIngredients()),
+        setAuthRedirect: (path) => dispatch(actions.setAuthRedirectPath(path)),
+        purchaseBurgerFinished: () => dispatch(actions.purchaseBurgerFinished())
     };
 }
 

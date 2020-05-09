@@ -11,7 +11,8 @@ const initialState = {
     ingredients: null,
     totalPrice: 0,
     burgerBuilderError: false,
-    burgerBuilderLoading: false
+    burgerBuilderLoading: false,
+    building: false
 }
 
 const addIngredient = (state, action) => {
@@ -30,7 +31,8 @@ const addIngredient = (state, action) => {
     return {
         ...state,
         totalPrice: newPrice,
-        ingredients: updatedIngredients
+        ingredients: updatedIngredients,
+        building: true
     }
 }
 
@@ -50,7 +52,8 @@ const removeIngredient = (state, action) => {
         return {
             ...state,
             totalPrice: newPrice,
-            ingredients: updatedIngredients
+            ingredients: updatedIngredients,
+            building: true
         }
     }
 }
@@ -69,7 +72,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 ingredients: action.payload,
                 burgerBuilderError: false,
-                burgerBuilderLoading: false
+                burgerBuilderLoading: false,
+                building: false
             };
         }
         case actionTypes.FETCH_INGREDIENTS_FAILED: {
@@ -77,7 +81,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 burgerBuilderError: true,
                 ingredients: null,
-                burgerBuilderLoading: false
+                burgerBuilderLoading: false,
+                building: false
             };
         }
         case actionTypes.FETCH_INGREDIENTS_START: {
@@ -86,7 +91,8 @@ const reducer = (state = initialState, action) => {
                 burgerBuilderError: false,
                 ingredients: null,
                 burgerBuilderLoading: true,
-                totalPrice: 0
+                totalPrice: 0,
+                building: false
             };
         }
         default:
