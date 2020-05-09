@@ -7,7 +7,7 @@ import * as actions from "../../store/actions/actionsIndex";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import axios from "axios";
-import {Redirect} from "react-router";
+import {Redirect} from "react-router-dom";
 
 class Auth extends Component {
 
@@ -128,21 +128,14 @@ class Auth extends Component {
             );
         }
 
-        let actionLogin = null;
-        if(this.props.token){
-            console.log(this.props.location);
-            let queryParams = new URLSearchParams(this.props.location.search);
-            console.log(queryParams);
-            if(queryParams && queryParams.get("logout")){
-                this.props.logout();
-            }else{
-                actionLogin = <Redirect to="/burgerBuilder" />
-            }
+        let authRedirect = null;
+        if(this.props.isAuthenticated){
+            authRedirect = <Redirect to="/burgerBuilder" />
         }
 
         return (
             <div className={classes.Auth}>
-                {actionLogin}
+                {authRedirect}
                 {errorMessage}
                 <form onSubmit={this.authenticate}>
                     {form}
@@ -157,14 +150,13 @@ const mapStateToProps = state => {
     return {
         loading: state.authRed.loading,
         error: state.authRed.error,
-        token: state.authRed.token
+        isAuthenticated: state.authRed.token !== null
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
-        authenticate: (email, password, isSignUp) => dispatch(actions.authenticate(email, password, isSignUp)),
-        logout: () => dispatch(actions.logout())
+        authenticate: (email, password, isSignUp) => dispatch(actions.authenticate(email, password, isSignUp))
     };
 }
 
