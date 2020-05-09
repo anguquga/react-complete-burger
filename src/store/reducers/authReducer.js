@@ -26,8 +26,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 error: null,
                 loading: false,
-                token: action.authData.idToken,
-                userId: action.authData.localId
+                token: action.token,
+                userId: action.userId
             };
         }
         case actionTypes.AUTH_FAIL: {
@@ -44,7 +44,8 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 userId: null,
-                token: null
+                token: null,
+                timer: null
             }
         }
         case actionTypes.AUTH_TIMER: {

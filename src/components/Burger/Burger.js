@@ -32,7 +32,7 @@ const burger = (props) => {
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.burguerBuilderRed.ingredients
+        ingredients: state.burgerBuilderRed.ingredients
     };
 }
 

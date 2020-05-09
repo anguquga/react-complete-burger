@@ -8,12 +8,12 @@ import thunk from 'redux-thunk';
 
 import {createStore, combineReducers, applyMiddleware, compose} from 'redux';
 import {Provider} from 'react-redux';
-import burgerBuilderReducer from "./store/reducers/burguerBuilderReducer";
+import burgerBuilderReducer from "./store/reducers/burgerBuilderReducer";
 import ordersReducer from "./store/reducers/ordersReducer";
 import authReducer from "./store/reducers/authReducer";
 
 const rootReducer = combineReducers({
-    burguerBuilderRed: burgerBuilderReducer,
+    burgerBuilderRed: burgerBuilderReducer,
     ordersRed: ordersReducer,
     authRed: authReducer
 });

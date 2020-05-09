@@ -12,7 +12,7 @@ const initialState = {
     totalPrice: 0,
     burgerBuilderError: false,
     burgerBuilderLoading: false,
-    building: true
+    building: false
 }
 
 const addIngredient = (state, action) => {
@@ -72,7 +72,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 ingredients: action.payload,
                 burgerBuilderError: false,
-                burgerBuilderLoading: false
+                burgerBuilderLoading: false,
+                building: false
             };
         }
         case actionTypes.FETCH_INGREDIENTS_FAILED: {
@@ -80,7 +81,8 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 burgerBuilderError: true,
                 ingredients: null,
-                burgerBuilderLoading: false
+                burgerBuilderLoading: false,
+                building: false
             };
         }
         case actionTypes.FETCH_INGREDIENTS_START: {

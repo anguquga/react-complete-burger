@@ -127,7 +127,8 @@ class ContactData extends Component {
                 },
                 email: this.state.orderForm.email.value
             },
-            deliveryMethod: this.state.orderForm.deliveryMethod.value
+            deliveryMethod: this.state.orderForm.deliveryMethod.value,
+            userId: this.props.userId
         };
 
         this.props.purchaseBurger(order, this.props.token);
@@ -160,8 +161,8 @@ class ContactData extends Component {
         }
 
         let form = (<form onSubmit={this.orderHandler}>
-            {formElements.map (formElement => {
-               return <Input id={formElement.id}
+            {formElements.map ((formElement, index) => {
+               return <Input id={formElement.id} key={index}
                              inputtype={formElement.config.elementType}
                              elementConfig={formElement.config.elementConfig}
                              invalid={!formElement.config.valid}
@@ -186,10 +187,11 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
     return {
-        ingredients: state.burguerBuilderRed.ingredients,
-        totalPrice: state.burguerBuilderRed.totalPrice,
+        ingredients: state.burgerBuilderRed.ingredients,
+        totalPrice: state.burgerBuilderRed.totalPrice,
         loadingOrder: state.ordersRed.loadingOrder,
-        token: state.authRed.token
+        token: state.authRed.token,
+        userId: state.authRed.userId
     };
 }
 

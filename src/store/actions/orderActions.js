@@ -20,10 +20,11 @@ export const fetchOrdersCompleted = (orders) => {
     };
 }
 
-export const fetchOrders = (token) => {
+export const fetchOrders = (token, userId) => {
     return dispatch => {
         dispatch(fetchOrdersStart());
-        axios.get('/orders.json?auth='+token)
+        let queryParams = '?auth=' + token + '&orderBy=\"userId"\&equalTo=\"' + userId+'\"';
+        axios.get('/orders.json' + queryParams)
             .then(response => {
                 dispatch(fetchOrdersCompleted(response.data));
             })
@@ -61,8 +62,15 @@ export const purchaseBurger = (orderData, token) => {
             .then(response => {
                 dispatch(purchaseBurgerSuccess(response.data, orderData))
             })
-            .catch(response => {
-                dispatch(purchaseBurgerFail(response.error));
+            .catch(error => {
+                console.log(error);
+                dispatch(purchaseBurgerFail(error));
             });
+    };
+}
+
+export const purchaseBurgerFinished = () => {
+    return {
+        type: actionTypes.PURCHASE_BURGER_FINISHED
     };
 }
