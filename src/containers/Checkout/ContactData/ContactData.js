@@ -8,6 +8,7 @@ import Input from "../../../components/UI/Input/Input";
 import {connect} from "react-redux";
 import * as actions from "../../../store/actions/actionsIndex";
 import withErrorHandler from "../../../hoc/withErrorHandler/withErrorHandler";
+import {checkValidity} from '../../../shared/utility';
 
 class ContactData extends Component {
     state = {
@@ -94,15 +95,11 @@ class ContactData extends Component {
         formIsValid: false
     }
 
-    componentDidMount() {
-
-    }
-
     formValueHandler = (event, inputId) => {
         let orderFormElement = {...this.state.orderForm};
         let updatedFormElement = {...orderFormElement[inputId]};
         updatedFormElement.value = event.target.value;
-        updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation)
+        updatedFormElement.valid = checkValidity(updatedFormElement.value, updatedFormElement.validation)
         updatedFormElement.touched = true;
         orderFormElement[inputId] = updatedFormElement;
 
@@ -133,26 +130,6 @@ class ContactData extends Component {
 
         this.props.purchaseBurger(order, this.props.token);
     }
-
-    checkValidity(value, rules) {
-
-        let isValid = true;
-
-        if(rules.required){
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if(rules.minLength){
-            isValid = value.length >= rules.minLength && isValid;
-        }
-
-        if(rules.maxLength){
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-
-        return isValid;
-    }
-
 
     render() {
         let formElements = [];

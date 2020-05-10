@@ -4,7 +4,7 @@ import classes from './NavigationItem.module.css';
 import {NavLink} from "react-router-dom";
 
 const navigationItem = (props) => (
-    <li className={classes.NavigationItem}>
+    <li className={classes.NavigationItem} onClick={props.isMobile ? props.closeSideDrawer:null}>
         <NavLink to={""+props.link} activeClassName={classes.active}>{props.children}</NavLink>
         </li>
 );

@@ -16,7 +16,6 @@ const initialState = {
 }
 
 const addIngredient = (state, action) => {
-    console.log("ADD INGREDIENTS ", state.ingredients);
     const oldCount = state.ingredients[action.ingredientType];
     const updatedCount = oldCount + 1;
     const updatedIngredients = {
@@ -26,7 +25,6 @@ const addIngredient = (state, action) => {
     const priceAddition = INGREDIENT_PRICES[action.ingredientType];
     const oldPrice = state.totalPrice;
     const newPrice = oldPrice + priceAddition;
-    console.log("UpdateD INGREDIENTS ", updatedIngredients);
 
     return {
         ...state,

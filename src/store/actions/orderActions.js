@@ -23,6 +23,7 @@ export const fetchOrdersCompleted = (orders) => {
 export const fetchOrders = (token, userId) => {
     return dispatch => {
         dispatch(fetchOrdersStart());
+        //eslint-disable-next-line
         let queryParams = '?auth=' + token + '&orderBy=\"userId"\&equalTo=\"' + userId+'\"';
         axios.get('/orders.json' + queryParams)
             .then(response => {
@@ -63,7 +64,6 @@ export const purchaseBurger = (orderData, token) => {
                 dispatch(purchaseBurgerSuccess(response.data, orderData))
             })
             .catch(error => {
-                console.log(error);
                 dispatch(purchaseBurgerFail(error));
             });
     };

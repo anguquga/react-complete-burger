@@ -3,13 +3,23 @@ import './App.module.css';
 
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from "./containers/BurgerBuilder/BurgerBuilder";
-import Checkout from "./containers/Checkout/Checkout";
 import {Route, withRouter, Redirect} from "react-router-dom";
-import Orders from "./containers/Orders/Orders";
-import Auth from "./containers/Auth/Auth";
 import Logout from "./containers/Auth/Logout/Logout";
 import * as actions from "./store/actions/actionsIndex";
 import {connect} from "react-redux";
+import asyncComponent from "./hoc/asyncComponent/asyncComponent";
+
+const asyncCheckout = asyncComponent(() => {
+    return import('./containers/Checkout/Checkout');
+});
+
+const asyncOrders = asyncComponent(() => {
+    return import('./containers/Orders/Orders');
+});
+
+const asyncAuth = asyncComponent(() => {
+    return import('./containers/Auth/Auth');
+});
 
 class App extends Component {
     componentDidMount() {
@@ -19,15 +29,15 @@ class App extends Component {
     render() {
 
         let routes = [
-                <Route path='/auth' component={Auth} />,
-                <Route path="/burgerBuilder" component={BurgerBuilder}/>,
-                <Route path="/" exact component={BurgerBuilder} />,
+                <Route key="auth" path='/auth' component={asyncAuth} />,
+                <Route key="bugerBuild" path="/burgerBuilder" component={BurgerBuilder}/>,
+                <Route key="root" path="/" exact component={BurgerBuilder} />,
         ];
 
         if(this.props.isAuthenticated){
-            routes.push(<Route path="/checkout"component={Checkout}/>);
-            routes.push(<Route path="/orders" component={Orders}/>);
-            routes.push(<Route path="/logout" component={Logout}/>);
+            routes.push(<Route key="checkout" path="/checkout"component={asyncCheckout}/>);
+            routes.push(<Route key="orders" path="/orders" component={asyncOrders}/>);
+            routes.push(<Route key="logout" path="/logout" component={Logout}/>);
         }
     return (
       <div>

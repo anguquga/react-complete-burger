@@ -8,6 +8,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import withErrorHandler from "../../hoc/withErrorHandler/withErrorHandler";
 import axios from "axios";
 import {Redirect} from "react-router-dom";
+import {checkValidity} from '../../shared/utility';
 
 class Auth extends Component {
 
@@ -51,42 +52,13 @@ class Auth extends Component {
         }
     }
 
-    checkValidity(value, rules) {
-
-        let isValid = true;
-
-        if (rules.required) {
-            isValid = value.trim() !== '' && isValid;
-        }
-
-        if (rules.minLength) {
-            isValid = value.length >= rules.minLength && isValid;
-        }
-
-        if (rules.maxLength) {
-            isValid = value.length <= rules.maxLength && isValid;
-        }
-
-        if (rules.isEmail) {
-            //const pattern = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-            //isValid = pattern.test(value) && isValid;
-        }
-
-        if (rules.isNumeric) {
-            const pattern = /^\d+$/;
-            isValid = pattern.test(value) && isValid;
-        }
-
-        return isValid;
-    }
-
     formValueHandler = (event, inputId) => {
         let orderFormElement = {
             ...this.state.controls,
             [inputId]: {
                 ...this.state.controls[inputId],
                 value: event.target.value,
-                valid: this.checkValidity(event.target.value, this.state.controls[inputId].validation),
+                valid: checkValidity(event.target.value, this.state.controls[inputId].validation),
                 touched: true
             }
         };
