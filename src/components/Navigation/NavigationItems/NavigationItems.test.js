@@ -12,4 +12,5 @@ describe('<NavigationItems />', () => {
         const wrapper = shallow(<NavigationItems />);
         expect(wrapper.find(navigationItem)).toHaveLength(2);
     });
+    it('test', null);
 });
